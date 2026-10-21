@@ -10,7 +10,7 @@ The Booking Manager will gradually support:
 - View a list of existing bookings.
 - Search for a booking by its ID.
 - Update a booking's status.
-- Delete a booking when needed.
+- Delete bookings when needed.
 - Validate user input and show clear success or error messages.
 
 ## Technology
@@ -22,13 +22,15 @@ The Booking Manager will gradually support:
 
 ## Current progress
 
-- [x] Initial MySQL database schema added in `database/bookings.sql`.
+- [x] MySQL database schema added in `database/bookings.sql`.
 - [x] PDO database connection added in `config/database.php`.
-- [x] Booking list page added in `public/index.php`, using `fetchAll(PDO::FETCH_ASSOC)`.
-- [x] Basic styling added in `public/style.css`.
+- [x] Booking list page added in `public/index.php`.
+- [x] Add-booking form and PDO INSERT added in `public/add-booking.php`.
+- [x] Basic form validation and CSRF token protection added.
+- [x] Success message and shared page styling added.
 - [x] Local configuration files excluded through `.gitignore`.
 - [ ] Test the application with a local PHP/MySQL environment.
-- [ ] Add create, search, update, and delete booking features.
+- [ ] Add search, update, and delete booking features.
 
 ## Database setup
 
@@ -37,7 +39,8 @@ The Booking Manager will gradually support:
 3. Update the local MySQL username and password in `config/database.php` if necessary.
 4. From the project directory, start PHP's development server with `php -S localhost:8000 -t public`.
 5. Visit `http://localhost:8000` in your browser.
+6. Select **Add booking** to create your first record.
 
 ## Learning approach
 
-This project is being built incrementally. Each stage will add a practical feature while reinforcing PHP, PDO, SQL, input validation, and secure database queries.
+This project is being built incrementally. Each stage adds a practical feature while reinforcing PHP, PDO, SQL, input validation, and secure database queries.
