@@ -23,15 +23,20 @@ The Booking Manager will gradually support:
 ## Current progress
 
 - [x] Initial MySQL database schema added in `database/bookings.sql`.
-- [ ] Configure the local PHP/MySQL environment.
-- [ ] Add the PDO database connection.
-- [ ] Build the booking pages and CRUD features.
+- [x] PDO database connection added in `config/database.php`.
+- [x] Booking list page added in `public/index.php`, using `fetchAll(PDO::FETCH_ASSOC)`.
+- [x] Basic styling added in `public/style.css`.
+- [x] Local configuration files excluded through `.gitignore`.
+- [ ] Test the application with a local PHP/MySQL environment.
+- [ ] Add create, search, update, and delete booking features.
 
 ## Database setup
 
 1. Make sure MySQL is running in your local development environment.
 2. Open the `database/bookings.sql` file in MySQL Workbench or phpMyAdmin and run it.
-3. The script creates the `booking_manager` database and the `bookings` table.
+3. Update the local MySQL username and password in `config/database.php` if necessary.
+4. From the project directory, start PHP's development server with `php -S localhost:8000 -t public`.
+5. Visit `http://localhost:8000` in your browser.
 
 ## Learning approach
 
