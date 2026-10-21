@@ -23,6 +23,81 @@ h1 {
     margin-top: 0;
 }
 
+a {
+    color: #1d4ed8;
+}
+
+.button-link,
+button {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    border: 0;
+    border-radius: 6px;
+    background: #1d4ed8;
+    color: #ffffff;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.button-link:hover {
+    background: #1e40af;
+}
+
+form {
+    display: grid;
+    gap: 0.65rem;
+    max-width: 560px;
+    margin-top: 1.5rem;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.message {
+    padding: 0.9rem 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+}
+
+.message-success {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.message-error {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+.message p {
+    margin-top: 0;
+}
+
 .table-wrapper {
     overflow-x: auto;
 }
