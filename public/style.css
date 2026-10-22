@@ -84,6 +84,41 @@ input:focus {
     margin-top: 1rem;
 }
 
+.dashboard {
+    margin: 1.5rem 0;
+}
+
+.dashboard h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f9fafb;
+}
+
+.stat-label {
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
 .message {
     padding: 0.9rem 1rem;
     margin: 1rem 0;
@@ -127,4 +162,43 @@ th {
 
 tbody tr:hover {
     background: #f9fafb;
+}
+
+.status {
+    display: inline-block;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-pending {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.status-confirmed {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.status-cancelled {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+@media (max-width: 700px) {
+    .container {
+        padding: 1.25rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 380px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
