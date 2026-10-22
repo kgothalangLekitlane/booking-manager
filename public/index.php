@@ -6,6 +6,17 @@ require_once __DIR__ . '/../config/database.php';
 $flashMessage = $_SESSION['flash_message'] ?? '';
 unset($_SESSION['flash_message']);
 
+// Dashboard summary: count all bookings by status in one database query.
+$statsSql = "SELECT
+    COUNT(*) AS total,
+    COALESCE(SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END), 0) AS pending,
+    COALESCE(SUM(CASE WHEN status = 'Confirmed' THEN 1 ELSE 0 END), 0) AS confirmed,
+    COALESCE(SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END), 0) AS cancelled
+    FROM bookings";
+$statsStmt = $pdo->prepare($statsSql);
+$statsStmt->execute();
+$stats = $statsStmt->fetch(PDO::FETCH_ASSOC);
+
 $searchId = '';
 $searchError = '';
 $searching = false;
@@ -51,7 +62,7 @@ if (isset($_GET['id'])) {
 <body>
     <main class="container">
         <h1>Booking Manager</h1>
-        <p>View all bookings or search for one by its ID.</p>
+        <p>View your booking overview, browse all bookings, or search by ID.</p>
 
         <p><a class="button-link" href="add-booking.php">+ Add booking</a></p>
 
@@ -60,6 +71,28 @@ if (isset($_GET['id'])) {
                 <?= htmlspecialchars($flashMessage, ENT_QUOTES, 'UTF-8') ?>
             </div>
         <?php endif; ?>
+
+        <section class="dashboard" aria-labelledby="overview-heading">
+            <h2 id="overview-heading">Booking overview</h2>
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Total bookings</span>
+                    <strong class="stat-number"><?= (int) $stats['total'] ?></strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Pending</span>
+                    <strong class="stat-number"><?= (int) $stats['pending'] ?></strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Confirmed</span>
+                    <strong class="stat-number"><?= (int) $stats['confirmed'] ?></strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Cancelled</span>
+                    <strong class="stat-number"><?= (int) $stats['cancelled'] ?></strong>
+                </article>
+            </div>
+        </section>
 
         <form method="get" action="index.php" class="search-form">
             <label for="id">Search by booking ID</label>
@@ -106,7 +139,7 @@ if (isset($_GET['id'])) {
                                 <td><?= htmlspecialchars($booking['customer_name'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= htmlspecialchars($booking['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= htmlspecialchars($booking['booking_date'], ENT_QUOTES, 'UTF-8') ?></td>
-                                <td><?= htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><span class="status status-<?= strtolower(htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8')) ?>"><?= htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8') ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
