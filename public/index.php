@@ -22,6 +22,25 @@ $searchError = '';
 $searching = false;
 $bookings = [];
 
+// Pagination settings for the full booking list.
+$perPage = 10;
+$currentPage = 1;
+$totalBookings = (int) $stats['total'];
+$totalPages = max(1, (int) ceil($totalBookings / $perPage));
+
+if (!isset($_GET['id'])) {
+    $rawPage = $_GET['page'] ?? '1';
+
+    if (is_string($rawPage) && ctype_digit($rawPage) && (int) $rawPage > 0) {
+        $currentPage = (int) $rawPage;
+    }
+
+    // Keep page numbers within the available range.
+    $currentPage = min($currentPage, $totalPages);
+}
+
+$offset = ($currentPage - 1) * $perPage;
+
 if (isset($_GET['id'])) {
     $searching = true;
     $rawId = $_GET['id'];
@@ -45,8 +64,12 @@ if (isset($_GET['id'])) {
         }
     }
 } else {
-    $sql = 'SELECT * FROM bookings ORDER BY booking_date ASC';
+    $sql = 'SELECT * FROM bookings
+            ORDER BY booking_date ASC, id ASC
+            LIMIT :limit OFFSET :offset';
     $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -147,6 +170,26 @@ if (isset($_GET['id'])) {
             </div>
         <?php else: ?>
             <p>No bookings found yet. Add your first booking using the button above.</p>
+        <?php endif; ?>
+
+        <?php if (!$searching && $totalBookings > $perPage): ?>
+            <nav class="pagination" aria-label="Booking list pages">
+                <?php if ($currentPage > 1): ?>
+                    <a href="index.php?page=<?= $currentPage - 1 ?>">Previous</a>
+                <?php else: ?>
+                    <span class="pagination-disabled">Previous</span>
+                <?php endif; ?>
+
+                <span class="pagination-summary">
+                    Page <?= $currentPage ?> of <?= $totalPages ?>
+                </span>
+
+                <?php if ($currentPage < $totalPages): ?>
+                    <a href="index.php?page=<?= $currentPage + 1 ?>">Next</a>
+                <?php else: ?>
+                    <span class="pagination-disabled">Next</span>
+                <?php endif; ?>
+            </nav>
         <?php endif; ?>
     </main>
 </body>
