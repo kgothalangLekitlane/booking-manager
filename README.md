@@ -7,6 +7,7 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - Create new bookings with customer details and a booking date.
 - View a list of existing bookings.
 - Search for a booking by its ID.
+- Browse long booking lists using pagination, showing 10 bookings per page.
 - View dashboard totals for all, pending, confirmed, and cancelled bookings.
 - Display booking statuses with visual labels.
 - Validate user input and show clear success or error messages.
@@ -28,6 +29,7 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - [x] Search for a booking by ID using a prepared statement.
 - [x] Dashboard summary counts for each booking status.
 - [x] Status labels and responsive dashboard styling.
+- [x] Booking list pagination with 10 records per page.
 - [x] Add-booking form and PDO INSERT added in `public/add-booking.php`.
 - [x] Basic form validation and CSRF token protection added.
 - [x] Local configuration files excluded through `.gitignore`.
