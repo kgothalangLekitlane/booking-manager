@@ -5,6 +5,7 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 ## Features
 
 - Create new bookings with customer details and a booking date.
+- Edit existing booking details and change their status.
 - View a list of existing bookings.
 - Search for a booking by its ID.
 - Browse long booking lists using pagination, showing 10 bookings per page.
@@ -12,7 +13,7 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - Display booking statuses with visual labels.
 - Validate user input and show clear success or error messages.
 - Use PDO prepared statements for database queries and inserts.
-- Protect the add-booking form with a CSRF token.
+- Protect the add-booking and edit-booking forms with CSRF tokens.
 
 ## Technology
 
@@ -34,7 +35,8 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - [x] Basic form validation and CSRF token protection added.
 - [x] Local configuration files excluded through `.gitignore`.
 - [ ] Test the application with a local PHP/MySQL environment.
-- [ ] Add update and delete booking features.
+- [x] Edit booking details and update status with a validated PDO UPDATE query.
+- [ ] Add delete booking feature.
 
 ## Database setup
 
