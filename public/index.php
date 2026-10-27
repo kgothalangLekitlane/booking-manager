@@ -125,10 +125,12 @@ if (isset($_GET['id'])) {
                 name="id"
                 min="1"
                 step="1"
+                aria-describedby="search-help"
                 value="<?= htmlspecialchars($searchId, ENT_QUOTES, 'UTF-8') ?>"
                 placeholder="For example, 12"
                 required
             >
+            <small class="search-help" id="search-help">Enter a positive whole-number booking ID, such as 12.</small>
             <div class="form-actions">
                 <button type="submit">Search</button>
                 <?php if ($searching): ?>
