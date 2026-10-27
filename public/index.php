@@ -155,6 +155,7 @@ if (isset($_GET['id'])) {
                             <th>Email</th>
                             <th>Booking date</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -165,6 +166,7 @@ if (isset($_GET['id'])) {
                                 <td><?= htmlspecialchars($booking['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= htmlspecialchars($booking['booking_date'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><span class="status status-<?= strtolower(htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8')) ?>"><?= htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8') ?></span></td>
+                                <td><a class="action-link" href="edit-booking.php?id=<?= (int) $booking['id'] ?>">Edit</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
