@@ -19,6 +19,7 @@ $customerName = '';
 $email = '';
 $bookingDate = '';
 $status = 'Pending';
+$totalAmount = '0.00';
 
 $findStmt = $pdo->prepare('SELECT * FROM bookings WHERE id = :id');
 $findStmt->execute(['id' => $bookingId]);
@@ -33,12 +34,14 @@ $customerName = $existingBooking['customer_name'];
 $email = $existingBooking['email'];
 $bookingDate = $existingBooking['booking_date'];
 $status = $existingBooking['status'];
+$totalAmount = (string) $existingBooking['total_amount'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerName = is_string($_POST['customer_name'] ?? null) ? trim($_POST['customer_name']) : '';
     $email = is_string($_POST['email'] ?? null) ? trim($_POST['email']) : '';
     $bookingDate = is_string($_POST['booking_date'] ?? null) ? trim($_POST['booking_date']) : '';
     $status = is_string($_POST['status'] ?? null) ? $_POST['status'] : '';
+    $totalAmount = is_string($_POST['total_amount'] ?? null) ? trim($_POST['total_amount']) : '';
     $csrfToken = is_string($_POST['csrf_token'] ?? null) ? $_POST['csrf_token'] : '';
 
     if (!hash_equals($_SESSION['csrf_token'], $csrfToken)) {
@@ -68,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Enter a valid booking date.';
     }
 
+    if ($totalAmount === '' || !is_numeric($totalAmount) || (float) $totalAmount < 0 || (float) $totalAmount > 99999999.99 || !preg_match('/^\\d{1,8}(?:\\.\\d{1,2})?$/', $totalAmount)) {
+        $errors[] = 'Enter a valid amount between 0 and 99,999,999.99.';
+    }
+
     if (!in_array($status, ['Pending', 'Confirmed', 'Cancelled'], true)) {
         $errors[] = 'Choose a valid booking status.';
     }
@@ -78,7 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     SET customer_name = :customer_name,
                         email = :email,
                         booking_date = :booking_date,
-                        status = :status
+                        status = :status,
+                        total_amount = :total_amount
                     WHERE id = :id';
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
@@ -86,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'email' => $email,
                 'booking_date' => $bookingDate,
                 'status' => $status,
+                'total_amount' => number_format((float) $totalAmount, 2, '.', ''),
                 'id' => $bookingId,
             ]);
 
@@ -139,6 +148,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="booking_date">Booking date</label>
             <input type="date" id="booking_date" name="booking_date"
                 value="<?= htmlspecialchars($bookingDate, ENT_QUOTES, 'UTF-8') ?>" required>
+
+            <label for="total_amount">Booking amount (ZAR)</label>
+            <input type="number" id="total_amount" name="total_amount" min="0" max="99999999.99" step="0.01" value="<?= htmlspecialchars($totalAmount, ENT_QUOTES, 'UTF-8') ?>" required>
 
             <label for="status">Booking status</label>
             <select id="status" name="status" required>
