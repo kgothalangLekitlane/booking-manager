@@ -10,12 +10,14 @@ if (empty($_SESSION['csrf_token'])) {
 $customerName = '';
 $email = '';
 $bookingDate = '';
+$totalAmount = '0.00';
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerName = trim($_POST['customer_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $bookingDate = trim($_POST['booking_date'] ?? '');
+    $totalAmount = is_string($_POST['total_amount'] ?? null) ? trim($_POST['total_amount']) : '';
     $csrfToken = $_POST['csrf_token'] ?? '';
 
     if (!hash_equals($_SESSION['csrf_token'], $csrfToken)) {
@@ -45,15 +47,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Enter a valid booking date.';
     }
 
+    if ($totalAmount === '' || !is_numeric($totalAmount) || (float) $totalAmount < 0 || (float) $totalAmount > 99999999.99 || !preg_match('/^\\d{1,8}(?:\\.\\d{1,2})?$/', $totalAmount)) {
+        $errors[] = 'Enter a valid amount between 0 and 99,999,999.99.';
+    }
+
     if ($errors === []) {
         try {
-            $sql = 'INSERT INTO bookings (customer_name, email, booking_date)
-                    VALUES (:customer_name, :email, :booking_date)';
+            $sql = 'INSERT INTO bookings (customer_name, email, booking_date, total_amount)
+                    VALUES (:customer_name, :email, :booking_date, :total_amount)';
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 'customer_name' => $customerName,
                 'email' => $email,
                 'booking_date' => $bookingDate,
+                'total_amount' => number_format((float) $totalAmount, 2, '.', ''),
             ]);
 
             $_SESSION['flash_message'] = 'Booking added successfully.';
@@ -117,6 +124,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
                 required
             >
+
+            <label for="total_amount">Booking amount (ZAR)</label>
+            <input type="number" id="total_amount" name="total_amount" min="0" max="99999999.99" step="0.01" value="<?= htmlspecialchars($totalAmount, ENT_QUOTES, 'UTF-8') ?>" required>
 
             <label for="booking_date">Booking date</label>
             <input
