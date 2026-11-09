@@ -10,6 +10,9 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - Search for a booking by its ID.
 - Browse long booking lists using pagination, showing 10 bookings per page.
 - View dashboard totals for all, pending, confirmed, and cancelled bookings.
+- Browse a monthly booking calendar and open bookings directly from calendar dates.
+- Manage a customer directory grouped by email and inspect each customer's booking history.
+- Record booking amounts and review monthly revenue from confirmed bookings.
 - Display booking statuses with visual labels.
 - Validate user input and show clear success or error messages.
 - Use PDO prepared statements for database queries and inserts.
@@ -34,6 +37,7 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 - [x] Add-booking form and PDO INSERT added in `public/add-booking.php`.
 - [x] Basic form validation and CSRF token protection added.
 - [x] Local configuration files excluded through `.gitignore`.
+- [ ] Run `database/add-booking-amount.sql` once on an existing database (skip if creating a fresh database from the updated schema).
 - [ ] Test the application with a local PHP/MySQL environment.
 - [x] Edit booking details and update status with a validated PDO UPDATE query.
 - [ ] Add delete booking feature.
@@ -46,6 +50,8 @@ My first PHP project: a simple booking management system built with **PHP, HTML,
 4. From the project directory, start PHP's development server with `php -S localhost:8000 -t public`.
 5. Visit `http://localhost:8000` in your browser.
 6. Select **Add booking** to create a record, or search for a booking using its ID.
+7. For an existing database, run `database/add-booking-amount.sql` before opening the updated app.
+8. Use the navigation links to open the calendar, customer directory, and revenue reports.
 
 ## Learning approach
 
