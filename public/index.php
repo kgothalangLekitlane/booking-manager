@@ -87,6 +87,7 @@ if (isset($_GET['id'])) {
         <h1>Booking Manager</h1>
         <p>View your booking overview, browse all bookings, or search by ID.</p>
 
+        <nav class="top-nav"><a href="calendar.php">Calendar</a><a href="customers.php">Customers</a><a href="reports.php">Revenue reports</a></nav>
         <p><a class="button-link" href="add-booking.php">+ Add booking</a></p>
 
         <?php if ($flashMessage !== ''): ?>
@@ -154,6 +155,7 @@ if (isset($_GET['id'])) {
                             <th>Customer</th>
                             <th>Email</th>
                             <th>Booking date</th>
+                            <th>Amount</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -165,6 +167,7 @@ if (isset($_GET['id'])) {
                                 <td><?= htmlspecialchars($booking['customer_name'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= htmlspecialchars($booking['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= htmlspecialchars($booking['booking_date'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td>R<?= number_format((float) $booking['total_amount'], 2) ?></td>
                                 <td><span class="status status-<?= strtolower(htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8')) ?>"><?= htmlspecialchars($booking['status'], ENT_QUOTES, 'UTF-8') ?></span></td>
                                 <td><a class="action-link" href="edit-booking.php?id=<?= (int) $booking['id'] ?>">Edit</a></td>
                             </tr>

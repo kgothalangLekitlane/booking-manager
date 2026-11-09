@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS bookings (
     email VARCHAR(150) NOT NULL,
     booking_date DATE NOT NULL,
     status ENUM('Pending', 'Confirmed', 'Cancelled') NOT NULL DEFAULT 'Pending',
+    total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
